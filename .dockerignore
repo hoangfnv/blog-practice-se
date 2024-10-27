@@ -1,0 +1,10 @@
+node_modules
+build
+dist
+*.log
+.git
+.gitignore
+*.md
+.cache
+.vscode
+.idea

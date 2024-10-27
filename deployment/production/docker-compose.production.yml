@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  blog-fe-production:
+    container_name: blog-fe-production_c
+
+    image: blog-fe-production_i
+
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+      target: production
+
+    ports:
+      - "80:80" #<host_port>:<container_port/protocol_port>
