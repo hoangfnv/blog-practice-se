@@ -21,7 +21,6 @@ services:
     # Mount the current directory to /app in the container
     volumes:
       - ../../src:/source-code/src
-      - /source-code/node_modules
 
     # Specify the command to run when the container starts
     command: pnpm run dev
