@@ -1,10 +1,10 @@
-import { BlogServerApiResponse } from "@/external-interface/base-api/type";
-import { ArticleList } from "@/external-interface/base-api/useArticleList.ts";
+import { BlogServerApiResponse } from "@/external-adapter/base-api/type";
+import { ArticleOverview } from "@/external-adapter/base-api/useArticleOverviewList.ts";
 import { BlogServerFetch } from "@/external-resource/blog-server/index.ts";
 
-type ArticleListResponse = BlogServerApiResponse<ArticleList>
+type ArticleListResponse = BlogServerApiResponse<ArticleOverview[]>
 
-export async function fetchArticleList(): Promise<ArticleList> {
+export async function fetchArticleOverviewList(): Promise<ArticleOverview[]> {
   const response = await BlogServerFetch<ArticleListResponse>('/articles')
   if (response.status === 'success') {
     return response.data
