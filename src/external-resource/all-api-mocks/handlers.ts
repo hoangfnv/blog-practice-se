@@ -1,5 +1,5 @@
-import { homeApis } from "@/external-resource/all-api-mocks/homeApis.ts";
+import { articleApis } from "@/external-resource/all-api-mocks/articleApis.ts";
 
 export const handlers = [
-  ...homeApis
+  ...articleApis
 ]

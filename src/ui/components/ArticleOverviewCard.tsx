@@ -1,6 +1,8 @@
 import { ArticleOverview } from "@/external-adapter/base-api/useArticleOverviewList.ts";
+import { RoutePathFactory } from "@/ui/router/routePathFactory.ts";
 import { transformDate } from "@/utils/transformDate.ts";
 import { HTMLProps } from "react";
+import { useLocation } from "wouter";
 
 type Props = {
   articleOverview: ArticleOverview
@@ -8,9 +10,10 @@ type Props = {
 
 export function ArticleOverviewCard(props: Props & HTMLProps<HTMLDivElement>) {
   const { articleOverview, ...divProps } = props;
+  const [, navigate] = useLocation()
 
   function handleClick() {
-    console.log(`/articles/${articleOverview.id}`)
+    navigate(RoutePathFactory.articleDetail(articleOverview.id))
   }
 
   return <div

@@ -144,15 +144,27 @@ const articles: ArticleOverview[] = [
   },
 ];
 
-const ArticleResponseSuccess = {
-  status: 'success',
-  data: articles
-}
-
-const getArticleList = http.get('https://api.blog-fe.com/articles', () => {
-  return HttpResponse.json(ArticleResponseSuccess, {status: 200})
+const fetchArticleOverviewList = http.get('https://api.blog-fe.com/articles', () => {
+  const ResponseSuccess = {
+    status: 'success',
+    data: articles
+  }
+  return HttpResponse.json(ResponseSuccess, {status: 200})
 })
 
-export const homeApis = [
-  getArticleList
+const fetchArticleDetail = http.get('https://api.blog-fe.com/articles/:id', (req) => {
+  const { id } = req.params
+  const ResponseSuccess = {
+    status: 'success',
+    data: Object.assign(
+      articles.find(article => article.id === id) || {},
+      {content: 'This is content for article ' + id}
+    )
+  }
+  return HttpResponse.json(ResponseSuccess, {status: 200})
+})
+
+export const articleApis = [
+  fetchArticleOverviewList,
+  fetchArticleDetail,
 ]

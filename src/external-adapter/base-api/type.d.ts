@@ -1,4 +1,4 @@
-export type BlogServerErrorCode = 'Err1' | 'Err2'
+export type BlogServerErrorCode = 'WrongResponseType' | 'LackOfParam'
 export type BlogServerApiResponse<T, U = undefined> = {
   status: 'success',
   data: T,

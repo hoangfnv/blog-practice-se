@@ -1,6 +1,7 @@
 import { BlogServerErrorCode } from "@/external-adapter/base-api/type";
-import { ExternalFetchResult, ExternalFetchResultStatus, FetchOption } from "@/external-adapter/external-adapter-type";
+import { ExternalFetchResult, FetchOption } from "@/external-adapter/externalAdapterType";
 import { QueryKeyFactory } from "@/external-adapter/react-query/queryKeyFactory.ts";
+import { transformQueryResponse } from "@/external-adapter/react-query/transform.ts";
 import { fetchArticleOverviewList } from "@/external-resource/blog-server/fetchArticleOverviewList.ts";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,16 +19,5 @@ export function useArticleOverviewList(option?: FetchOption): ExternalFetchResul
     queryFn: fetchArticleOverviewList,
     ...(option || {}),
   })
-
-  let status: ExternalFetchResultStatus = 'not-start'
-  if (query.status === 'success') status = 'success'
-  if (query.status === 'error') status = 'error'
-  if (query.status === 'pending' && query.fetchStatus === 'fetching') status = 'loading'
-
-  return {
-    data: query.data,
-    status: status,
-    error: query.error,
-    refetch: query.refetch
-  }
+  return transformQueryResponse(query)
 }
