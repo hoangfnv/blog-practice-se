@@ -1,4 +1,4 @@
-import { ExternalFetchResult, ExternalFetchResultStatus } from "@/external-adapter/externalAdapterType";
+import { ExternalFetchResult, ExternalFetchResultStatus, FetchOption } from "@/external-adapter/externalAdapterType";
 import { UseQueryResult } from "@tanstack/react-query";
 
 export function transformQueryResponse<TResult, TError>(query:  UseQueryResult<TResult, TError>): ExternalFetchResult<TResult, TError> {
@@ -13,5 +13,13 @@ export function transformQueryResponse<TResult, TError>(query:  UseQueryResult<T
     status: status,
     error: query.error,
     refetch: query.refetch
+  }
+}
+
+export function transformOption(fetchOption: FetchOption | undefined) {
+  if (!fetchOption) return {}
+
+  return {
+    enabled: fetchOption.enable,
   }
 }

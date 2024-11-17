@@ -1,7 +1,7 @@
 import { ArticleOverview } from "@/external-adapter/base-api/useArticleOverviewList.ts";
 import { http, HttpResponse } from "msw";
 
-const articles: ArticleOverview[] = [
+const articleOverviews: ArticleOverview[] = [
   {
     id: 'f8a1c0d8b8',
     title: 'The Future of Web Development: Trends in 2023',
@@ -143,11 +143,37 @@ const articles: ArticleOverview[] = [
     tags: ['JavaScript', 'Async', 'Programming', 'Tutorial'],
   },
 ];
+const articleContent = `Step 3: Find the minimal but complete representation of UI state 
+
+To make the UI interactive, you need to let users change your underlying data model. You will use state for this.
+
+Think of state as the minimal set of changing data that your app needs to remember. The most important principle for structuring state is to keep it DRY (Don’t Repeat Yourself). Figure out the absolute minimal representation of the state your application needs and compute everything else on-demand. For example, if you’re building a shopping list, you can store the items as an array in state. If you want to also display the number of items in the list, don’t store the number of items as another state value—instead, read the length of your array.
+
+Now think of all of the pieces of data in this example application:
+
+The original list of products
+The search text the user has entered
+The value of the checkbox
+The filtered list of products
+Which of these are state? Identify the ones that are not:
+
+Does it remain unchanged over time? If so, it isn’t state.
+Is it passed in from a parent via props? If so, it isn’t state.
+Can you compute it based on existing state or props in your component? If so, it definitely isn’t state!
+What’s left is probably state.
+
+Let’s go through them one by one again:
+
+The original list of products is passed in as props, so it’s not state.
+The search text seems to be state since it changes over time and can’t be computed from anything.
+The value of the checkbox seems to be state since it changes over time and can’t be computed from anything.
+The filtered list of products isn’t state because it can be computed by taking the original list of products and filtering it according to the search text and value of the checkbox.
+This means only the search text and the value of the checkbox are state! Nicely done!`
 
 const fetchArticleOverviewList = http.get('https://api.blog-fe.com/articles', () => {
   const ResponseSuccess = {
     status: 'success',
-    data: articles
+    data: articleOverviews
   }
   return HttpResponse.json(ResponseSuccess, {status: 200})
 })
@@ -157,8 +183,20 @@ const fetchArticleDetail = http.get('https://api.blog-fe.com/articles/:id', (req
   const ResponseSuccess = {
     status: 'success',
     data: Object.assign(
-      articles.find(article => article.id === id) || {},
-      {content: 'This is content for article ' + id}
+      articleOverviews.find(article => article.id === id) || {},
+      {content: `${id}: ${articleContent}`}
+    )
+  }
+  return HttpResponse.json(ResponseSuccess, {status: 200})
+})
+
+const fetchAPartOfArticleDetail = http.get('https://api.blog-fe.com/a-part-of-articles/:id', (req) => {
+  const { id } = req.params
+  const ResponseSuccess = {
+    status: 'success',
+    data: Object.assign(
+      articleOverviews.find(article => article.id === id) || {},
+      {content: `${id}: ${articleContent.substring(0, 100)}`}
     )
   }
   return HttpResponse.json(ResponseSuccess, {status: 200})
@@ -167,4 +205,5 @@ const fetchArticleDetail = http.get('https://api.blog-fe.com/articles/:id', (req
 export const articleApis = [
   fetchArticleOverviewList,
   fetchArticleDetail,
+  fetchAPartOfArticleDetail,
 ]

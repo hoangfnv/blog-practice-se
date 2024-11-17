@@ -1,7 +1,7 @@
 import { BlogServerErrorCode } from "@/external-adapter/base-api/type";
 import { ExternalFetchResult, FetchOption } from "@/external-adapter/externalAdapterType";
 import { QueryKeyFactory } from "@/external-adapter/react-query/queryKeyFactory.ts";
-import { transformQueryResponse } from "@/external-adapter/react-query/transform.ts";
+import { transformOption, transformQueryResponse } from "@/external-adapter/react-query/transform.ts";
 import { fetchArticleOverviewList } from "@/external-resource/blog-server/fetchArticleOverviewList.ts";
 import { useQuery } from "@tanstack/react-query";
 
@@ -17,7 +17,7 @@ export function useArticleOverviewList(option?: FetchOption): ExternalFetchResul
   const query = useQuery<ArticleOverview[], BlogServerErrorCode>({
     queryKey: QueryKeyFactory.articleOverviewList(),
     queryFn: fetchArticleOverviewList,
-    ...(option || {}),
+    ...transformOption(option),
   })
   return transformQueryResponse(query)
 }

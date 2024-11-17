@@ -1,11 +1,9 @@
-type RoutePath = 'home' | 'articleDetail'
-
-export const RoutePathFactory: Record<RoutePath, (...args: (string | undefined)[]) => string> = {
+export const RoutePathFactory = {
   home: () => '~/',
-  articleDetail: (id) => `~/articles/${id}`,
+  articleDetail: (id: string) => `~/articles/${id}`,
 }
 
-export const RoutePaths: Record<RoutePath, string> = {
+export const RoutePaths: Record<keyof typeof RoutePathFactory, string> = {
   home: '/',
   articleDetail: '/articles/:id',
 }
